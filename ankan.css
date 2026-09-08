@@ -1,0 +1,313 @@
+.bkb-panel {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 560px;
+  max-width: calc(100vw - 20px);
+  background: #e9ebef;
+  border: 1px solid #c7cad1;
+  border-radius: 12px;
+  box-shadow: 0 14px 34px rgba(0,0,0,0.22);
+  z-index: 99999;
+  font-family: 'Tiro Bangla', 'Segoe UI', Arial, sans-serif;
+  overflow: hidden;
+  user-select: none;
+}
+
+.bkb-panel.bkb-hidden {
+  display: none;
+}
+
+.bkb-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg,#232833,#1a1e26);
+  color: #fff;
+  padding: 9px 12px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.bkb-header:active {
+  cursor: grabbing;
+}
+
+.bkb-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bkb-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.bkb-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.bkb-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bkb-info-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.bkb-info-panel {
+  display: none;
+  position: absolute;
+  top: 34px;
+  right: 0;
+  width: 350px;
+  background: #fff;
+  color: #1f2937;
+  border: 1px solid #c7cad1;
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+  padding: 10px 12px;
+  font-size: 12px;
+  line-height: 1.55;
+  z-index: 100000;
+  cursor: default;
+}
+
+.bkb-info-panel strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12.5px;
+}
+
+.bkb-info-panel ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.bkb-info-panel li {
+  margin-bottom: 3px;
+}
+
+.bkb-info-wrap:hover .bkb-info-panel,
+.bkb-info-wrap:focus-within .bkb-info-panel {
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .bkb-info-panel {
+    right: -10px;
+    width: 300px;
+  }
+}
+
+.bkb-btn {
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bkb-btn:hover {
+  background: rgba(255,255,255,0.24);
+}
+
+.bkb-mode-toggle {
+  width: auto;
+  min-width: 44px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.bkb-body {
+  padding: 12px 12px 6px;
+}
+
+.bkb-row {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 6px;
+}
+
+.bkb-key {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 35px;
+  border: 1px solid #c3c6cd;
+  border-bottom-width: 3px;
+  background: linear-gradient(180deg,#ffffff,#f2f3f5);
+  border-radius: 7px;
+  cursor: pointer;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
+  transition: transform 0.05s ease, background 0.1s ease;
+}
+
+.bkb-key:hover {
+  background: linear-gradient(180deg,#ffffff,#e9ebee);
+}
+
+.bkb-key:active {
+  transform: translateY(2px);
+  border-bottom-width: 1px;
+  background: #e2e4e8;
+}
+
+.bkb-key-pressed {
+  transform: translateY(2px);
+  border-bottom-width: 1px;
+  background: #e2e4e8;
+}
+
+.bkb-key-main {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.bkb-key-sub {
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  font-size: 9px;
+  color: #9aa0aa;
+  line-height: 1;
+}
+
+.bkb-footer {
+  display: flex;
+  gap: 6px;
+  padding: 6px 12px 12px;
+}
+
+.bkb-key-shift {
+  flex: 1.4;
+  height: 35px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.bkb-key-shift.active {
+  background: linear-gradient(180deg,#c9a227,#b8912050);
+  background-color: #ecd68a;
+  border-color: #c9a227;
+  color: #4a3a05;
+}
+
+.bkb-key-space {
+  flex: 5;
+  height: 35px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.bkb-key-ctrl {
+  flex: 1.4;
+  height: 35px;
+  font-size: 14px;
+  color: #374151;
+}
+
+@media (max-width: 640px) {
+  .bkb-panel {
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    bottom: 0 !important;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .bkb-header {
+    cursor: default;
+  }
+
+  .bkb-body {
+    padding: 10px 8px 4px;
+  }
+
+  .bkb-row {
+    gap: 4px;
+    margin-bottom: 4px;
+    padding-left: 0 !important;
+  }
+
+  .bkb-key {
+    height: 42px;
+  }
+
+  .bkb-key-main {
+    font-size: 16px;
+  }
+
+  .bkb-footer {
+    padding: 4px 8px 10px;
+    gap: 4px;
+  }
+}
+
+/* Generic pressed/toggled state, shared by any footer key (currently only
+   .bkb-key-shift.active used this look — this makes it reusable). */
+.bkb-key.active {
+  background: linear-gradient(180deg,#c9a227,#b8912050);
+  background-color: #ecd68a;
+  border-color: #c9a227;
+  color: #4a3a05;
+}
+
+/* Punctuation & emoji panel (swapped in place of the key rows) */
+.bkb-sym-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 2px 0 8px;
+}
+.bkb-sym-group + .bkb-sym-group {
+  border-top: 1px solid #d7dae0;
+  margin-top: 2px;
+  padding-top: 10px;
+}
+.bkb-sym-key {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 35px;
+}
+.bkb-emoji-grid .bkb-key {
+  font-size: 19px;
+}
+.bkb-key-symbols {
+  font-size: 16px;
+}
+
+@media (max-width: 640px) {
+  .bkb-sym-key {
+    width: 44px;
+    height: 42px;
+  }
+  .bkb-emoji-grid .bkb-key {
+    font-size: 20px;
+  }
+}
