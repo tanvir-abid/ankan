@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>অঙ্কন — Ankan Keyboard Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Tiro+Bangla&family=Tiro+Bangla:ital@1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tanvir-abid/ankan@v1.0.0/ankan.css">
+<link rel="stylesheet" href="./index.css">
+<script>
+  (function(){
+    try{
+      var saved = localStorage.getItem('ankan-theme');
+      var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    }catch(e){}
+  })();
+</script>
+</head>
+<body>
+
+<nav>
+  <div class="navbar">
+    <div class="bkb-title-wrap brand">
+      <svg class="bkb-icon brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3.76 12.24a6 6 0 0 1 8.49-8.49L19 10.5V19h-8.5z"/>
+            <line x1="8" y1="8" x2="22" y2="22"/>
+            <line x1="6.5" y1="15" x2="15" y2="15"/>
+      </svg>
+      <span class="brand-title">অঙ্কন</span>
+    </div>
+    <div class="navbar-right">
+      <ul class="navlinks" id="navlinks">
+        <li><a href="#demo">Demo</a></li>
+        <li><a href="#install">Install</a></li>
+        <li><a href="#use-cases">Use cases</a></li>
+        <li><a href="#api">API</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header class="hero wrap" id="demo">
+  <div class="hero-grid">
+    <div style="margin: 0 10px;">
+      <div class="chips">
+        <span class="chip">Bijoy layout</span>
+        <span class="chip">Phonetic (Banglish)</span>
+        <span class="chip">Zero dependencies</span>
+      </div>
+      <h1>Type Bangla,<br>without a Bangla keyboard.</h1>
+      <p class="lede">Ankan is a floating on-screen keyboard for the web. Drop it into any input and your users get Bijoy typing, phonetic (Avro-style) typing, or both — switchable from one small panel.</p>
+      <div class="hero-cta">
+        <a class="btn primary" href="#install">Get the CDN snippet</a>
+        <a class="btn" href="#use-cases">See use cases</a>
+      </div>
+    </div>
+
+    <div class="hero-anim" id="hero-anim">
+      <div class="hero-anim-stage" id="hero-anim-stage">
+        <svg class="hero-beams" id="hero-beams" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <div class="hero-anim-center" id="hero-anim-center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3.76 12.24a6 6 0 0 1 8.49-8.49L19 10.5V19h-8.5z"/>
+            <line x1="8" y1="8" x2="22" y2="22"/>
+            <line x1="6.5" y1="15" x2="15" y2="15"/>
+          </svg>
+        </div>
+        <!-- .hero-key elements are injected here by JS -->
+      </div>
+      <div class="hero-anim-caption" id="hero-anim-caption" aria-hidden="true">
+        <span class="cap-latin"></span><span class="cap-arrow">→</span><span class="cap-bangla bn"></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="install">
+    <div class="section-head">
+      <h2>Install</h2>
+      <p class="eyebrow-free">No bundler, no build step — plain ES modules served from jsDelivr. Pick the module that matches what you're building; each tab below lists every option it accepts.</p>
+    </div>
+    <div class="card">
+      <div class="module-tab-group">
+        <button class="itab active" data-itab="combined">Combined panel<span class="tab-badge">Recommended</span></button>
+        <button class="itab" data-itab="bijoy">Bijoy-only</button>
+        <button class="itab" data-itab="phonetic">Phonetic-only</button>
+      </div>
+
+      <div class="ipanel active" id="install-combined">
+        <p class="install-note">One floating panel that lets a user switch between Bijoy key-position typing and phonetic (Banglish) typing. Loads <code>ankanBn.js</code>, <code>ankanEn.js</code>, and <code>ankanShared.js</code> automatically.</p>
+        <pre>&lt;<span class="kw">link</span> rel=<span class="st">"stylesheet"</span> href=<span class="st">"https://cdn.jsdelivr.net/gh/tanvir-abid/ankan@v1.0.0/ankan.css"</span>&gt;
+
+&lt;<span class="kw">script</span> type=<span class="st">"module"</span>&gt;
+  <span class="kw">import</span> { initAnkanKeyboard } <span class="kw">from</span> <span class="st">"https://cdn.jsdelivr.net/gh/tanvir-abid/ankan@v1.0.0/ankan.js"</span>;
+
+  <span class="fn">initAnkanKeyboard</span>({
+    selector: <span class="st">"textarea, input[type=text]"</span>,  <span class="cm">// string | string[] — default: all text inputs</span>
+    defaultMode: <span class="st">"bangla"</span>,                   <span class="cm">// "bangla" | "phonetic" — default: "bangla"</span>
+    closeMode: <span class="st">"permanent"</span>,                  <span class="cm">// "permanent" | "toggle" — default: "permanent"</span>
+    enabled: <span class="kw">true</span>,                           <span class="cm">// boolean — default: true</span>
+    showPanel: <span class="kw">true</span>,                         <span class="cm">// boolean — default: true</span>
+    onPanelToggle: (visible) =&gt; {}                <span class="cm">// (visible: boolean) => void — default: none</span>
+  });
+&lt;/<span class="kw">script</span>&gt;</pre>
+      </div>
+
+      <div class="ipanel" id="install-bijoy">
+        <p class="install-note">Just the classic key-position layout, with no phonetic mode — for users who already know Bijoy and don't need a mode switcher.</p>
+        <pre>&lt;<span class="kw">link</span> rel=<span class="st">"stylesheet"</span> href=<span class="st">"https://cdn.jsdelivr.net/gh/tanvir-abid/ankan@v1.0.0/ankan.css"</span>&gt;
+
+&lt;<span class="kw">script</span> type=<span class="st">"module"</span>&gt;
+  <span class="kw">import</span> { initBanglaKeyboard } <span class="kw">from</span> <span class="st">"https://cdn.jsdelivr.net/gh/tanvir-abid/ankan@v1.0.0/ankanBn.js"</span>;
+
+  <span class="fn">initBanglaKeyboard</span>({
+    selector: <span class="st">"textarea, input[type=text]"</span>,  <span class="cm">// string | string[] — default: all text inputs</span>
+    closeMode: <span class="st">"permanent"</span>,                  <span class="cm">// "permanent" | "toggle" — default: "permanent"</span>
+    enabled: <span class="kw">true</span>,                           <span class="cm">// boolean — default: true</span>
+    showPanel: <span class="kw">true</span>,                         <span class="cm">// boolean — default: true</span>
+    onPanelToggle: (visible) =&gt; {}                <span class="cm">// (visible: boolean) => void — default: none</span>
+  });
+&lt;/<span class="kw">script</span>&gt;</pre>
+      </div>
+
+      <div class="ipanel" id="install-phonetic">
+        <p class="install-note">Silent background conversion as people type romanized Bangla — no floating keyboard, just a tiny optional on/off badge.</p>
+        <pre>&lt;<span class="kw">link</span> rel=<span class="st">"stylesheet"</span> href=<span class="st">"https://cdn.jsdelivr.net/gh/tanvir-abid/ankan@v1.0.0/ankan.css"</span>&gt;
+
+&lt;<span class="kw">script</span> type=<span class="st">"module"</span>&gt;
+  <span class="kw">import</span> { initPhoneticBangla } <span class="kw">from</span> <span class="st">"https://cdn.jsdelivr.net/gh/tanvir-abid/ankan@v1.0.0/ankanEn.js"</span>;
+
+  <span class="fn">initPhoneticBangla</span>({
+    selector: <span class="st">"textarea, input[type=text]"</span>,  <span class="cm">// string | string[] — default: all text inputs</span>
+    enabled: <span class="kw">true</span>,                           <span class="cm">// boolean — default: true</span>
+    showBadge: <span class="kw">true</span>                          <span class="cm">// boolean — default: true</span>
+  });
+&lt;/<span class="kw">script</span>&gt;</pre>
+      </div>
+
+
+    </div>
+  </section>
+
+  <section id="quick-start">
+    <div class="section-head">
+      <h2>Quick start</h2>
+      <p class="eyebrow-free">Copy this whole file, save it, open it in a browser. That's the entire setup — no build step, no config.</p>
+    </div>
+    <div class="card">
+      <div class="snippet">
+        <div class="snippet-label">index.html</div>
+        <pre>&lt;<span class="kw">!DOCTYPE</span> <span class="kw">html</span>&gt;
+&lt;<span class="kw">html</span> lang=<span class="st">"bn"</span>&gt;
+&lt;<span class="kw">head</span>&gt;
+  &lt;<span class="kw">meta</span> charset=<span class="st">"UTF-8"</span>&gt;
+  &lt;<span class="kw">title</span>&gt;My Bangla App&lt;/<span class="kw">title</span>&gt;
+  &lt;<span class="kw">link</span> rel=<span class="st">"stylesheet"</span> href=<span class="st">"https://cdn.jsdelivr.net/gh/tanvir-abid/ankan@v1.0.0/ankan.css"</span>&gt;
+&lt;/<span class="kw">head</span>&gt;
+&lt;<span class="kw">body</span>&gt;
+
+  &lt;<span class="kw">textarea</span> placeholder=<span class="st">"Type in English to get Bangla..."</span> rows=<span class="st">"6"</span> style=<span class="st">"width:100%;font-size:1.1rem;"</span>&gt;&lt;/<span class="kw">textarea</span>&gt;
+
+  &lt;<span class="kw">script</span> type=<span class="st">"module"</span>&gt;
+    <span class="kw">import</span> { initAnkanKeyboard } <span class="kw">from</span> <span class="st">"https://cdn.jsdelivr.net/gh/tanvir-abid/ankan@v1.0.0/ankan.js"</span>;
+    <span class="fn">initAnkanKeyboard</span>({ selector: <span class="st">"textarea"</span> });
+  &lt;/<span class="kw">script</span>&gt;
+
+&lt;/<span class="kw">body</span>&gt;
+&lt;/<span class="kw">html</span>&gt;</pre>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="use-cases">
+    <div class="section-head">
+      <h2>Use cases</h2>
+      <p class="eyebrow-free">Pick the module that matches what you're building.</p>
+    </div>
+    <div class="uc-grid">
+
+      <div class="uc">
+        <h3>Combined panel (recommended)</h3>
+        <p>One floating panel, switchable between Bijoy and phonetic from its own header. Best default for comment boxes, forms, chat.</p>
+        <div class="snippet">
+          <div class="snippet-label">Code</div>
+          <pre><span class="kw">import</span> { initAnkanKeyboard } <span class="kw">from</span> <span class="st">"./ankan.js"</span>;
+<span class="fn">initAnkanKeyboard</span>({
+  selector: <span class="st">"#message, textarea"</span>,
+  defaultMode: <span class="st">"phonetic"</span>
+});</pre>
+        </div>
+      </div>
+
+      <div class="uc">
+        <h3>Bijoy-only keyboard</h3>
+        <p>Just the classic key-position layout, for users who already know Bijoy and don't need phonetic mode cluttering the panel.</p>
+        <div class="snippet">
+          <div class="snippet-label">Code</div>
+          <pre><span class="kw">import</span> { initBanglaKeyboard } <span class="kw">from</span> <span class="st">"./ankanBn.js"</span>;
+<span class="fn">initBanglaKeyboard</span>({ selector: <span class="st">"textarea"</span> });</pre>
+        </div>
+      </div>
+
+      <div class="uc">
+        <h3>Phonetic-only, no panel</h3>
+        <p>Silent background conversion as people type romanized Bangla — no floating keyboard, just a tiny optional on/off badge.</p>
+        <div class="snippet">
+          <div class="snippet-label">Code</div>
+          <pre><span class="kw">import</span> { initPhoneticBangla } <span class="kw">from</span> <span class="st">"./ankanEn.js"</span>;
+<span class="fn">initPhoneticBangla</span>({ selector: <span class="st">"textarea"</span>, showBadge: <span class="kw">false</span> });</pre>
+        </div>
+      </div>
+
+      <div class="uc">
+        <h3>Target specific fields</h3>
+        <p>Pass any CSS selector — one field, several, or a shared class across a form.</p>
+        <div class="snippet">
+          <div class="snippet-label">Code</div>
+          <pre><span class="fn">initAnkanKeyboard</span>({
+  selector: [<span class="st">"#comment-box"</span>, <span class="st">".chat-input"</span>]
+});</pre>
+        </div>
+      </div>
+
+      <div class="uc">
+        <h3>Rich chat boxes (contenteditable)</h3>
+        <p>Works on <code>contenteditable</code> hosts too — Slack-style composers, not just <code>&lt;input&gt;</code>/<code>&lt;textarea&gt;</code>.</p>
+        <div class="snippet">
+          <div class="snippet-label">Code</div>
+          <pre>&lt;<span class="kw">div</span> class=<span class="st">"chat-input"</span> contenteditable=<span class="st">"true"</span>&gt;&lt;/<span class="kw">div</span>&gt;
+
+<span class="fn">initAnkanKeyboard</span>({ selector: <span class="st">".chat-input"</span> });</pre>
+        </div>
+      </div>
+
+      <div class="uc">
+        <h3>Language-switcher UX</h3>
+        <p>Drive the panel from your own UI — open it, close it, or force a mode without waiting for a focus event.</p>
+        <div class="snippet">
+          <div class="snippet-label">Code</div>
+          <pre><span class="kw">import</span> { showAnkanKeyboard, hideAnkanKeyboard, setAnkanMode } <span class="kw">from</span> <span class="st">"./ankan.js"</span>;
+
+langSelect.addEventListener(<span class="st">"change"</span>, () =&gt; {
+  <span class="kw">if</span> (langSelect.value === <span class="st">"bn"</span>) {
+    <span class="fn">setAnkanMode</span>(<span class="st">"bangla"</span>);
+    <span class="fn">showAnkanKeyboard</span>();
+  } <span class="kw">else</span> <span class="fn">hideAnkanKeyboard</span>();
+});</pre>
+        </div>
+      </div>
+
+      <div class="uc" style="grid-column:1/-1;">
+        <h3>Convert existing text on demand</h3>
+        <p>Use the phonetic engine directly — no input attachment needed. Good for a "convert" button, or cleaning up text pasted before the listener was attached.</p>
+        <div class="convert-box">
+          <textarea id="convert-in" placeholder="amar sonar bangla"></textarea>
+          <span class="convert-arrow">→</span>
+          <div class="convert-out" id="convert-out">আমার সোনার বাংলা</div>
+        </div>
+        <div class="snippet">
+          <div class="snippet-label">Code</div>
+          <pre><span class="kw">import</span> { convertText } <span class="kw">from</span> <span class="st">"./ankanEn.js"</span>;
+<span class="fn">convertText</span>(<span class="st">"amar sonar bangla"</span>); <span class="cm">// → "আমার সোনার বাংলা"</span></pre>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="conjuncts">
+    <div class="section-head">
+      <h2 class="bn" style="font-family:'Newsreader',serif;">যুক্তাক্ষর — Conjunct letters</h2>
+      <p class="eyebrow-free">Bangla fuses two or more consonants into a single glyph (a <span class="bn">যুক্তাক্ষর</span>) by dropping the vowel between them — <span class="bn">ক</span> + <span class="bn">ষ</span> becomes <span class="bn">ক্ষ</span>, not <span class="bn">কষ</span>. Every card below is generated live from the engine's own rule table via <code>getConjunctPatterns()</code>, so it never drifts out of sync with what actually gets typed.</p>
+    </div>
+
+    <div class="demo-card" style="margin-bottom:22px;">
+      <span class="tag">Practice — this keyboard is live</span>
+
+      <div class="demo-controls">
+        <label class="switch-row">
+          <span>Auto-show panel on focus (<code>showPanel</code>)</span>
+          <span class="switch">
+            <input type="checkbox" id="ctrlShowPanel" checked>
+            <span class="switch-track"></span>
+          </span>
+        </label>
+        <label class="switch-row">
+          <span>Keyboard enabled (<code>setAnkanKeyboardEnabled</code>)</span>
+          <span class="switch">
+            <input type="checkbox" id="ctrlEnabled" checked>
+            <span class="switch-track"></span>
+          </span>
+        </label>
+
+        <div class="control-btns">
+          <button type="button" class="ctrl-btn" id="ctrlShow">Show keyboard</button>
+          <button type="button" class="ctrl-btn" id="ctrlHide">Hide keyboard</button>
+          <button type="button" class="ctrl-btn" id="ctrlModeToggle">Switch mode</button>
+        </div>
+
+        <div class="demo-status">
+          Panel: <strong id="demoStatusVal">shown</strong> · Mode: <strong id="demoModeVal">phonetic</strong>
+        </div>
+      </div>
+
+      <textarea id="conjunct-demo" class="practice-textarea" placeholder="Click here, then type a pattern — try kkh, jNG, ngkh..."></textarea>
+      <div class="demo-hint">
+        <span class="bn" style="font-size:1rem;">ⓘ</span>
+        <span>Click any card below to preview it here, or type patterns yourself with the on-screen (or physical) keyboard. Turn off <b>Auto-show panel</b> to try typing with the panel hidden, then use <b>Show keyboard</b> to bring it up manually.</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <input type="text" id="conjunct-filter" class="conjunct-filter" placeholder="Filter by pattern or glyph — e.g. kkh or ক্ষ">
+      <div class="conjunct-count" id="conjunct-count"></div>
+      <div class="conjunct-groups" id="conjunct-groups"></div>
+    </div>
+  </section>
+
+  <section id="api">
+    <div class="section-head">
+      <h2>API reference</h2>
+      <p class="eyebrow-free">Three modules, each usable on its own.</p>
+    </div>
+    <div class="card">
+      <div class="module-tab-group">
+        <button class="mtab active" data-tab="ankan">ankan.js<span class="tab-badge">Recommended</span></button>
+        <button class="mtab" data-tab="ankanBn">ankanBn.js</button>
+        <button class="mtab" data-tab="ankanEn">ankanEn.js</button>
+      </div>
+
+      <div class="mpanel active" id="tab-ankan">
+        <div class="module-purpose"><b>Purpose:</b> the combined module — one floating panel that lets a user switch between Bijoy key-position typing and phonetic (Banglish) typing without leaving the field. This is the recommended default for most integrations.</div>
+        <div class="api-table-wrap"><table class="api-table">
+          <tr><th>Function</th><th>Description</th></tr>
+          <tr><td><code>initAnkanKeyboard(options)</code></td><td>Attach the combined panel. Safe to call again to reconfigure.</td></tr>
+          <tr><td><code>setAnkanKeyboardEnabled(bool)</code></td><td>Turn the keyboard on/off from outside code.</td></tr>
+          <tr><td><code>isAnkanKeyboardEnabled()</code></td><td>Current enabled state.</td></tr>
+          <tr><td><code>showAnkanKeyboard(targetEl?)</code></td><td>Force the panel open on a given (or last-focused) field.</td></tr>
+          <tr><td><code>hideAnkanKeyboard()</code></td><td>Hide the panel right now.</td></tr>
+          <tr><td><code>setAnkanMode(mode)</code></td><td><code>'bangla'</code> or <code>'phonetic'</code> — switch programmatically.</td></tr>
+          <tr><td><code>getAnkanMode()</code></td><td>Current mode.</td></tr>
+        </table></div>
+      </div>
+
+      <div class="mpanel" id="tab-ankanBn">
+        <div class="module-purpose"><b>Purpose:</b> the standalone Bijoy-layout keyboard, with no phonetic mode. Use it when your users already know Bijoy key positions and a mode switcher would just be clutter.</div>
+        <div class="api-table-wrap"><table class="api-table">
+          <tr><th>Function</th><th>Description</th></tr>
+          <tr><td><code>initBanglaKeyboard(options)</code></td><td>Attach the standalone Bijoy-layout panel.</td></tr>
+          <tr><td><code>setBanglaKeyboardEnabled(bool)</code></td><td>Turn on/off from outside code.</td></tr>
+          <tr><td><code>isBanglaKeyboardEnabled()</code></td><td>Current enabled state.</td></tr>
+          <tr><td><code>showBanglaKeyboard(targetEl?)</code></td><td>Force the panel open.</td></tr>
+          <tr><td><code>hideBanglaKeyboard()</code></td><td>Hide the panel.</td></tr>
+          <tr><td><code>KEY_TABLE, ROW_LAYOUT, VOWEL_CODES, charFor</code></td><td>Raw Bijoy layout data, exported for building your own custom key UI.</td></tr>
+        </table></div>
+      </div>
+
+      <div class="mpanel" id="tab-ankanEn">
+        <div class="module-purpose"><b>Purpose:</b> the standalone phonetic (Avro-style) conversion engine. It silently converts romanized Bangla as people type — no floating panel — and can also be called directly to convert any string on demand.</div>
+        <div class="api-table-wrap"><table class="api-table">
+          <tr><th>Function</th><th>Description</th></tr>
+          <tr><td><code>initPhoneticBangla(options)</code></td><td>Attach live word-by-word phonetic conversion.</td></tr>
+          <tr><td><code>setPhoneticEnabled(bool)</code></td><td>Turn conversion on/off globally.</td></tr>
+          <tr><td><code>isPhoneticEnabled()</code></td><td>Current enabled state.</td></tr>
+          <tr><td><code>convertText(str)</code></td><td>Convert a whole string at once → Bangla Unicode.</td></tr>
+          <tr><td><code>getConjunctPatterns()</code></td><td>Returns the engine's own conjunct (যুক্তাক্ষর) rules — handy for a cheat-sheet UI.</td></tr>
+        </table></div>
+      </div>
+
+      <div class="api-table-wrap"><table class="api-table" style="margin-top:26px;">
+        <tr><th>Option</th><th>Type</th><th>Default</th><th>Applies to</th></tr>
+        <tr><td><code>selector</code></td><td>string | string[]</td><td>all text inputs</td><td>all three</td></tr>
+        <tr><td><code>defaultMode</code></td><td>'bangla' | 'phonetic'</td><td>'bangla'</td><td>ankan.js only</td></tr>
+        <tr><td><code>closeMode</code></td><td>'permanent' | 'toggle'</td><td>'permanent'</td><td>ankan.js, ankanBn.js</td></tr>
+        <tr><td><code>enabled</code></td><td>boolean</td><td>true</td><td>all three</td></tr>
+        <tr><td><code>showPanel</code></td><td>boolean</td><td>true</td><td>ankan.js, ankanBn.js</td></tr>
+        <tr><td><code>onPanelToggle</code></td><td>(visible: boolean) => void</td><td>—</td><td>ankan.js, ankanBn.js</td></tr>
+        <tr><td><code>showBadge</code></td><td>boolean</td><td>true</td><td>ankanEn.js only</td></tr>
+      </table></div>
+
+      <div class="callout" style="margin-top:14px;">
+        <code>showPanel: false</code> keeps typing/conversion fully active on focus but never
+        auto-opens the floating panel — pair it with <code>onPanelToggle</code> to drive your
+        own trigger button, then call <code>showAnkanKeyboard()</code> /
+        <code>showBanglaKeyboard()</code> to open it explicitly. Those calls (and the panel's
+        own Minimize/Close buttons) always fire <code>onPanelToggle</code>, regardless of this
+        setting.
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="section-head">
+      <h2>Tips &amp; FAQ</h2>
+    </div>
+    <details class="faq-item">
+      <summary>Does this need a bundler?</summary>
+      <p>No — everything is a plain ES module. A single <code>&lt;script type="module"&gt;</code> tag is enough, from a CDN or self-hosted.</p>
+    </details>
+    <details class="faq-item">
+      <summary>What happens on mobile?</summary>
+      <p>On touch devices the native on-screen keyboard is suppressed automatically while a matched field is focused, so people only see Ankan's keys. The panel itself docks to the bottom of the screen below 640px.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Is it safe to call init more than once?</summary>
+      <p>Yes. Re-calling <code>initAnkanKeyboard</code> (or the other init functions) just updates the selector, mode, or enabled state — it won't attach duplicate listeners.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Where does the phonetic rule data come from?</summary>
+      <p>The transliteration pattern table is adapted from Avro Phonetic (OmicronLab / Rifat Nabi), licensed under MPL 1.1. The parsing engine and input-attachment code are original.</p>
+    </details>
+  </section>
+
+    <section id="developer">
+    <div class="section-head">
+      <h2>Developer</h2>
+      <p class="eyebrow-free">The person behind Ankan.</p>
+    </div>
+    <div class="dev-card card">
+      <div class="dev-left">
+        <div class="dev-avatar">TA</div>
+        <div class="dev-info">
+          <h3>Tanvir Abid</h3>
+          <div class="dev-role">Frontend Developer</div>
+          <p class="dev-bio">Builds small, dependency-free UI tools. Ankan started as a personal fix for typing Bangla without switching the OS keyboard layout, and grew into a drop-in panel for any web project.</p>
+
+          <div class="dev-gh" id="devGh" hidden>
+            <img class="dev-gh-avatar" id="devGhAvatar" alt="" width="44" height="44">
+            <div class="dev-gh-meta">
+              <a class="dev-gh-name" id="devGhName" target="_blank" rel="noopener"></a>
+              <p class="dev-gh-bio" id="devGhBio"></p>
+              <div class="dev-gh-stats" id="devGhStats"></div>
+            </div>
+          </div>
+
+          <div class="dev-social">
+            <a href="https://github.com/yourhandle" target="_blank" rel="noopener" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.98 5.24.98 11.52c0 5.02 3.26 9.28 7.78 10.78.57.1.78-.25.78-.55v-2.02c-3.16.69-3.83-1.52-3.83-1.52-.52-1.32-1.26-1.68-1.26-1.68-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.24 3.31.95.1-.73.4-1.24.72-1.53-2.52-.29-5.17-1.26-5.17-5.6 0-1.24.44-2.24 1.16-3.04-.12-.29-.5-1.45.11-3.02 0 0 .96-.31 3.14 1.16a10.9 10.9 0 0 1 5.72 0c2.18-1.47 3.13-1.16 3.13-1.16.62 1.57.23 2.73.12 3.02.72.8 1.16 1.8 1.16 3.04 0 4.35-2.65 5.31-5.18 5.59.41.35.77 1.04.77 2.1v3.11c0 .3.2.66.79.55A11.03 11.03 0 0 0 23.02 11.5C23.02 5.24 18.27.5 12 .5Z"/></svg>
+            </a>
+            <a href="https://yourportfolio.dev" target="_blank" rel="noopener" aria-label="Portfolio website">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20Z"/></svg>
+            </a>
+            <a href="mailto:you@example.com" aria-label="Email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="dev-right">
+        <h4 class="dev-projects-title">Other projects</h4>
+        <div class="dev-projects">
+          <a class="dev-project" href="https://github.com/yourhandle/neumorph-ui" target="_blank" rel="noopener">
+            <span class="dev-project-icon">N</span>
+            <span class="dev-project-meta">
+              <span class="dev-project-name">Neumorph‑UI</span>
+              <span class="dev-project-desc">Lightweight neumorphic CSS component kit.</span>
+            </span>
+          </a>
+          <a class="dev-project" href="https://github.com/yourhandle/bijoy-type" target="_blank" rel="noopener">
+            <span class="dev-project-icon">B</span>
+            <span class="dev-project-meta">
+              <span class="dev-project-name">Bijoy‑Type</span>
+              <span class="dev-project-desc">Bangla input helper for VS Code.</span>
+            </span>
+          </a>
+          <a class="dev-project" href="https://github.com/yourhandle/glyph-lab" target="_blank" rel="noopener">
+            <span class="dev-project-icon">G</span>
+            <span class="dev-project-meta">
+              <span class="dev-project-name">Glyph Lab</span>
+              <span class="dev-project-desc">Typography and font-pairing playground.</span>
+            </span>
+          </a>
+          <a class="dev-project" href="https://github.com/yourhandle/formify" target="_blank" rel="noopener">
+            <span class="dev-project-icon">F</span>
+            <span class="dev-project-meta">
+              <span class="dev-project-name">Formify</span>
+              <span class="dev-project-desc">Zero-dependency form validator.</span>
+            </span>
+          </a>
+          <a class="dev-project" href="https://github.com/yourhandle/prosaic" target="_blank" rel="noopener">
+            <span class="dev-project-icon">P</span>
+            <span class="dev-project-meta">
+              <span class="dev-project-name">Prosaic</span>
+              <span class="dev-project-desc">Distraction-free writing app.</span>
+            </span>
+          </a>
+          <a class="dev-project" href="https://github.com/yourhandle/palette-forge" target="_blank" rel="noopener">
+            <span class="dev-project-icon">P</span>
+            <span class="dev-project-meta">
+              <span class="dev-project-name">Palette Forge</span>
+              <span class="dev-project-desc">Color palette generator with export presets.</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand" style="text-align: center;">
+        <!-- <div class="footer-watermark" aria-hidden="true">ANKAN</div> -->
+        <div class="footer-emblem">
+          <svg class="emblem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3.76 12.24a6 6 0 0 1 8.49-8.49L19 10.5V19h-8.5z"/>
+            <line x1="8" y1="8" x2="22" y2="22"/>
+            <line x1="6.5" y1="15" x2="15" y2="15"/>
+          </svg>
+          <span class="emblem-word bn">অঙ্কন</span>
+        </div>
+        <p>A phonetic and Bijoy Bangla keyboard engine for the web — type Bangla anywhere, on any device, with any input method.</p>
+      </div>
+
+      <nav class="footer-col" aria-label="Sections">
+        <h4>Sections</h4>
+        <ul>
+          <li><a href="#demo">Demo</a></li>
+          <li><a href="#install">Install</a></li>
+          <li><a href="#quick-start">Quick start</a></li>
+          <li><a href="#use-cases">Use cases</a></li>
+          <li><a href="#conjuncts">Conjuncts</a></li>
+          <li><a href="#api">API</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-col">
+        <h4>Project</h4>
+        <ul>
+          <li><a href="https://github.com/tahmidhasan/ankan" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://github.com/tahmidhasan/ankan/issues" target="_blank" rel="noopener">Report an issue</a></li>
+          <li><a href="https://github.com/tahmidhasan/ankan/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© <script>document.write(new Date().getFullYear());</script> Ankan.</p>
+      <p>Built by <a href="https://github.com/yourhandle" target="_blank" rel="noopener">Your Name</a></p>
+    </div>
+  </div>
+</footer>
+
+
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <span class="icon-moon">🌙</span>
+        <span class="icon-sun">☀️</span>
+      </button>
+      
+<script type="module" src="./index.js"></script>
+
+</body>
+</html>
